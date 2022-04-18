@@ -1,2 +1,2 @@
 # cutter
-🔗Shortcut URL generator service for developers.
+Google Spreadsheet-based ShortURL Service
