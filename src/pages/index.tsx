@@ -14,19 +14,28 @@ import {
     ModalBody,
     ModalCloseButton,
 } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
+import { useDisclosure, Text } from '@chakra-ui/react'
+
 
 import styles from "../styles/top.module.scss"
 
 const Page = () => {
+    const [short, setShort] = React.useState("");
     const [url, setUrl] = React.useState('')
-    const handleClick = () =>  {
-        if (url == "") {
+    const handleClick = () => {
+        if (url === "") {
             window.alert("No value")
         }
-        window.location.assign(`/api/generate/${url}`)
+        const saikyouno_url = encodeURIComponent(url)
+        fetch(`/api/generate/${saikyouno_url}`)
+            .then((response) => response.json()) 
+            .then((res) => setShort(res.short_url))
     }
-    const appName = process.env.serviceName
-    const appDesc = process.env.serviceDescription
+    const adminClick = () =>  {
+        window.location.assign(`/admin`)
+    }
+    const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <div>
             <Head>
@@ -40,10 +49,29 @@ const Page = () => {
                 <h1 className={styles.title_text}>cutter</h1>
                 <p>Google Spreadsheet-based ShortURL Service</p>
                 <Input variant='outline' placeholder='paste url'  value={url} onChange={(e) => setUrl(e.target.value)} />
-                <Button as="a" background='blue.500' colorScheme="blue" color="gray.100" size="lg" w='100%' marginTop={15} onClick={handleClick}>
+                <Button as="a" background='green.500' colorScheme="green" color="gray.100" size="lg" w='100%' marginTop={15} _hover={{ cursor: "pointer "}}  onClick={() => {handleClick();onOpen();}}>
                     Go generate
                 </Button>
+                <Button as="a" background='blue.500' colorScheme="blue" color="gray.100" size="lg" w='100%' marginTop={15} _hover={{ cursor: "pointer "}}  onClick={() => {adminClick();}}>
+                    Go Admin page
+                </Button>
                 </div>
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                    <ModalHeader>ShortURL has been created!</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text fontSize="lg">{"https://" + process.env.serviceDomain + "/api/u/" + short}</Text>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={2} onClick={onClose}>
+                        Close
+                        </Button>
+                    </ModalFooter>
+                    </ModalContent>
+                </Modal>
             </main>
         </div>
     )
