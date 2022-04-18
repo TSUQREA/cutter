@@ -1,0 +1,20 @@
+$mobile: 767px;
+.main {
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background-color: #16181d;
+    color: #fff;
+    .title_text {
+        font-family: 'Rubik Glitch', cursive;
+        font-size: 30px;
+    }
+    .hero {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform : translate(-50%,-50%);
+        transform : translate(-50%,-50%);
+    }
+}

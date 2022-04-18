@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter,Helvetica Neue,Arial,Hiragino Kaku Gothic ProN,Hiragino Sans,Meiryo,sans-serif;
+}
+
+a {
+    color: #fff;
+}
+small {
+    color: #00CC90;
+}
+h1::selection {
+    background-color: #00CC90;
+}
